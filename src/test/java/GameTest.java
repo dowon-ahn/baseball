@@ -13,13 +13,34 @@ class GameTest {
 
     @Test
     void createGame() {
-        Game game = new Game();
         assertNotNull(game);
     }
+
     @Test
     void argumentNullHandleTest() {
         assertThrows(IllegalArgumentException.class, () -> {
             game.guess(null);
+        });
+    }
+
+    @Test
+    void argumentLengthHandleTest() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.guess("13");
+        });
+    }
+
+    @Test
+    void argumentNumberValidTest(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.guess("12s");
+        });
+    }
+
+    @Test
+    void argumentDuplicatedNumberTest(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.guess("122");
         });
     }
 }
