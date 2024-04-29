@@ -1,7 +1,17 @@
 import java.util.*;
 
 public class Game {
-    public void guess(String guessNumber){
+    String question;
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public GameResult guess(String guessNumber){
         if (guessNumber == null) {
             throw new IllegalArgumentException();
         }
@@ -17,7 +27,35 @@ public class Game {
         if(hasDuplicate(guessNumber)){
             throw new IllegalArgumentException();
         }
+
+        if(question.equals(guessNumber)){
+            return new GameResult(true, 3, 0);
+        }
+
+        return new GameResult(false, countStrike(guessNumber), countBalls(guessNumber));
     }
+
+    private int countBalls(String guessNumber) {
+        int ballCnt = 0;
+        for (int i = 0; i < guessNumber.length(); i++) {
+            if(guessNumber.charAt(i) != question.charAt(i)){
+                if(question.contains(Character.toString(guessNumber.charAt(i))))
+                    ballCnt++;
+            }
+        }
+        return ballCnt;
+    }
+
+    private int countStrike(String guessNumber) {
+        int strikeCnt = 0;
+        for (int i = 0; i < guessNumber.length(); i++) {
+            if(guessNumber.charAt(i) == question.charAt(i)){
+                strikeCnt++;
+            }
+        }
+        return strikeCnt;
+    }
+
 
     public  boolean hasDuplicate(String guessNumber) {
         // 입력된 문자열이 null이거나 길이가 1보다 작으면 중복된 숫자가 없음
@@ -50,3 +88,4 @@ public class Game {
         return false;
     }
 }
+
