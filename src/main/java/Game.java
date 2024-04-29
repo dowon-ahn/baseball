@@ -12,6 +12,24 @@ public class Game {
     }
 
     public GameResult guess(String guessNumber){
+        checkValidation(guessNumber);
+
+        if(question.equals(guessNumber)){
+            return pass();
+        }
+
+        return fail(guessNumber);
+    }
+
+    private GameResult fail(String guessNumber) {
+        return new GameResult(false, countStrike(guessNumber), countBalls(guessNumber));
+    }
+
+    private static GameResult pass() {
+        return new GameResult(true, 3, 0);
+    }
+
+    private void checkValidation(String guessNumber) {
         if (guessNumber == null) {
             throw new IllegalArgumentException();
         }
@@ -27,12 +45,6 @@ public class Game {
         if(hasDuplicate(guessNumber)){
             throw new IllegalArgumentException();
         }
-
-        if(question.equals(guessNumber)){
-            return new GameResult(true, 3, 0);
-        }
-
-        return new GameResult(false, countStrike(guessNumber), countBalls(guessNumber));
     }
 
     private int countBalls(String guessNumber) {
